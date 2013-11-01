@@ -51,7 +51,7 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
         NSLog(@"status code: %ld", (long)[operation.response statusCode]);
     };
     
-    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"19"];
+    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"1"];
     
     [AppUserManager getAppUser:findUserString : nil
                        success:findUserSuccess

@@ -14,6 +14,9 @@
 @implementation AppUserManager
 
 
+// TODO: should we encrypt user passwords before we send them over the wire?
+
+
 #pragma mark - crud operations
 
 /**
@@ -92,8 +95,10 @@
      success:successCallback
      failure:failureCallback
      ];
-    
 }
+
+
+# pragma mark - convenience methods
 
 - (AppUser *) populateAppUser : (id) json {
     
@@ -116,6 +121,8 @@
     
     return user;
 }
+
+
 
 #pragma mark - AFNetworking 2.0 config methods
 

@@ -41,9 +41,6 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
     id findUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
       
         NSLog(@"findUserSuccess: %@", JSON);
-        
-        _foundUser = [_appUserManager populateAppUser:JSON];
-        NSLog(@"foundUser: %@", _foundUser);
     };
     
     id findUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -51,7 +48,7 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
         NSLog(@"status code: %ld", (long)[operation.response statusCode]);
     };
     
-    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"1"];
+    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"527a99805740c08172cf51e1"];
     
     [AppUserManager getAppUser:findUserString : nil
                        success:findUserSuccess
@@ -76,13 +73,15 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
     
     // populate data needed to create user
     NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"jimmy@gmail.com", @"username",
+                             @"charles@gmail.com", @"username",
                              @"password", @"password",
                              @"password", @"confirmPassword", nil];
     
-    [AppUserManager createAppUser: endPointURLBase :userDic
-                          success:createUserSuccess
-                          failure:createUserFailure];
+    NSString *createString = [AppUserManager convertDictionaryToJSONString:userDic];
+    
+    [AppUserManager createAppUser:endPointURLBase : createString
+                            success:createUserSuccess
+                            failure:createUserFailure];
 }
 
 
@@ -103,7 +102,7 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
             NSLog(@"update failure: %@", error);
         };
         
-        NSString *updateUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, foundUser.userId];
+        NSString *updateEndpoint = [NSString stringWithFormat:@"%@/%@", endPointURLBase, foundUser.userId];
         
         // populate data needed to create user
         NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -111,7 +110,9 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
                                  @"password", @"password",
                                  @"password", @"confirmPassword", nil];
         
-        [AppUserManager updateAppUser: updateUserString : userDic
+        NSString *updateData = [AppUserManager convertDictionaryToJSONString:userDic];
+        
+        [AppUserManager updateAppUser: updateEndpoint : updateData
                               success:updateSuccess
                               failure:updateFailure];
     };
@@ -120,7 +121,7 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
         NSLog(@"NSERROR: %@", error);
     };
     
-    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"1"];
+    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"6"];
     
     [AppUserManager getAppUser: findUserString : nil
                           success:foundUserSuccess
@@ -138,7 +139,7 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
         NSLog(@"delete failure: %@", error);
     };
     
-    NSString *deleteUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"1"];
+    NSString *deleteUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"527a99805740c08172cf51e1"];
     
     [AppUserManager deleteAppUser: deleteUserString : nil
                        success:foundUserSuccess

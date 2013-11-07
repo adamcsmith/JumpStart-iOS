@@ -10,21 +10,25 @@
 
 @interface AppUserManager : NSObject
 
-+ (void) createAppUser : (NSString *) endPoint : (NSDictionary *) userData
-                success:(void(^)(AFHTTPRequestOperation *operation, id JSON))successCallback
-                failure:(void(^)(AFHTTPRequestOperation *operation, NSError *error))failureCallback;
++ (void) createAppUser:(NSString *)endPoint : (NSString *)userData
+               success:(void (^)(AFHTTPRequestOperation *, id))successCallback
+               failure:(void (^)(AFHTTPRequestOperation *, NSError *))failureCallback;
 
 + (void) getAppUser : (NSString *) endPoint : (NSDictionary *) userData
                 success:(void(^)(AFHTTPRequestOperation *operation, id JSON))successCallback
                 failure:(void(^)(AFHTTPRequestOperation *operation, NSError *error))failureCallback;
 
-+ (void) updateAppUser : (NSString *) endPoint : (NSDictionary *) userData
++ (void) updateAppUser : (NSString *) endPoint : (NSString *) userData
              success:(void(^)(AFHTTPRequestOperation *operation, id JSON))successCallback
              failure:(void(^)(AFHTTPRequestOperation *operation, NSError *error))failureCallback;
 
 + (void) deleteAppUser : (NSString *) endPoint : (NSDictionary *) userData
                 success:(void(^)(AFHTTPRequestOperation *operation, id JSON))successCallback
                 failure:(void(^)(AFHTTPRequestOperation *operation, NSError *error))failureCallback;
+
+
+
++ (NSString *) convertDictionaryToJSONString:(NSDictionary *)dictionary;
 
 - (AppUser *) populateAppUser : (id) JSON;
 

@@ -13,13 +13,17 @@
 @interface ViewController ()
 @property (strong, nonatomic) AppUserManager *appUserManager;
 @property (strong, nonatomic) AppUser *foundUser;
-@property (strong, nonatomic) AppUser *createdUser;
-@property (strong, nonatomic) AppUser *updatedUser;
 @end
 
 @implementation ViewController
 
+// base url for endpoint
 NSString *endPointURLBase = @"http://localhost:9000/api/users";
+
+// user id for testing purposes
+NSString *userIDForTesting = @"527bcc72036440a177b13ab0";
+
+
 
 - (void)viewDidLoad
 {
@@ -36,19 +40,43 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
 }
 
 
+
+#pragma mark - crud rest methods
+
+- (IBAction)testPOST:(id)sender {
+    
+    id createUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
+        
+        NSLog(@"Created User Success! User details: %@", JSON);
+    };
+    
+    id createUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Create User Failure: %@", error);
+    };
+    
+    // create test user
+    NSString *createString = [self createTestUserData1];
+    
+    // make create call
+    [AppUserManager createAppUser:endPointURLBase : createString
+                          success:createUserSuccess
+                          failure:createUserFailure];
+}
+
 - (IBAction)testGET:(id)sender {
     
     id findUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
       
-        NSLog(@"findUserSuccess: %@", JSON);
+        NSLog(@"(GET) User successfully found: %@", JSON);
     };
     
     id findUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
         
-        NSLog(@"status code: %ld", (long)[operation.response statusCode]);
+        NSLog(@"(GET) Failure finding user: %ld", (long)[operation.response statusCode]);
     };
     
-    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"527a99805740c08172cf51e1"];
+    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
     
     [AppUserManager getAppUser:findUserString : nil
                        success:findUserSuccess
@@ -56,72 +84,41 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
 }
 
 
-- (IBAction)testPOST:(id)sender {
-    
-    id createUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
-        
-        NSLog(@"JSON: %@", JSON);
-        
-        _createdUser = [[AppUser alloc] init];
-        _createdUser.userId = [JSON valueForKeyPath:@"data.id"];
-    };
-    
-    id createUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        NSLog(@"Create Failure: %@", error);
-    };
-    
-    // populate data needed to create user
-    NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"charles@gmail.com", @"username",
-                             @"password", @"password",
-                             @"password", @"confirmPassword", nil];
-    
-    NSString *createString = [AppUserManager convertDictionaryToJSONString:userDic];
-    
-    [AppUserManager createAppUser:endPointURLBase : createString
-                            success:createUserSuccess
-                            failure:createUserFailure];
-}
-
-
 - (IBAction)testPUT:(id)sender {
     
     id foundUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
         
-        NSLog(@"JSON: %@", JSON);
+        NSLog(@"Successfully found user for PUT!");
         
+        // lets hold on to the id for later use
         AppUser *foundUser = [[AppUser alloc] init];
         foundUser.userId = [JSON valueForKeyPath:@"id"];
         
         id updateSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
-            NSLog(@"updated JSON: %@", JSON);
+            NSLog(@"User successfully updated! Check them out: %@", JSON);
         };
         
         id updateFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"update failure: %@", error);
+            NSLog(@"Failure when updating user: %@", error);
         };
         
+        // set the endpoint
         NSString *updateEndpoint = [NSString stringWithFormat:@"%@/%@", endPointURLBase, foundUser.userId];
         
         // populate data needed to create user
-        NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 @"willy@aol.com", @"username",
-                                 @"password", @"password",
-                                 @"password", @"confirmPassword", nil];
+        NSString *updateData = [self createTestUserData1];
         
-        NSString *updateData = [AppUserManager convertDictionaryToJSONString:userDic];
-        
+        // update the user
         [AppUserManager updateAppUser: updateEndpoint : updateData
                               success:updateSuccess
                               failure:updateFailure];
     };
     
     id foundUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"NSERROR: %@", error);
+        NSLog(@"(PUT) Failure finding user: %@", error);
     };
     
-    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"6"];
+    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
     
     [AppUserManager getAppUser: findUserString : nil
                           success:foundUserSuccess
@@ -136,14 +133,46 @@ NSString *endPointURLBase = @"http://localhost:9000/api/users";
     };
     
     id foundUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"delete failure: %@", error);
+        NSLog(@"Delete Failure: %@", error);
     };
     
-    NSString *deleteUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, @"527a99805740c08172cf51e1"];
+    NSString *deleteUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
     
     [AppUserManager deleteAppUser: deleteUserString : nil
                        success:foundUserSuccess
                        failure:foundUserFailure];
+}
+
+
+
+# pragma mark - creating users for testing
+
+- (NSString *) createTestUserData1 {
+    
+    // populate data needed to create user
+    NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                             @"rg3@nfl.com", @"username",
+                             @"httr", @"password",
+                             @"httr", @"confirmPassword", nil];
+    
+    // converts the dictionary to a string
+    NSString *userData = [AppUserManager convertDictionaryToJSONString:userDic];
+    
+    return userData;
+}
+
+- (NSString *) createTestUserData2 {
+    
+    // populate data needed to create user
+    NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
+                             @"mrtyson@gmail.com", @"username",
+                             @"dogtreats", @"password",
+                             @"dogtreats", @"confirmPassword", nil];
+    
+    // converts the dictionary to a string
+    NSString *userData = [AppUserManager convertDictionaryToJSONString:userDic];
+    
+    return userData;
 }
 
 @end

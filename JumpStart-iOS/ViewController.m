@@ -21,7 +21,8 @@
 NSString *endPointURLBase = @"http://localhost:9000/api/users";
 
 // user id for testing purposes
-NSString *userIDForTesting = @"527bcc72036440a177b13ab0";
+//NSString *userIDForTesting = @"527bcc72036440a177b13ab0";
+NSString *userIDForTesting = @"7";
 
 
 
@@ -48,11 +49,13 @@ NSString *userIDForTesting = @"527bcc72036440a177b13ab0";
     id createUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
         
         NSLog(@"Created User Success! User details: %@", JSON);
+        [self showSuccessAlertView];
     };
     
     id createUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"Create User Failure: %@", error);
+        [self showFailureAlertView];
     };
     
     // create test user
@@ -69,11 +72,13 @@ NSString *userIDForTesting = @"527bcc72036440a177b13ab0";
     id findUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
       
         NSLog(@"(GET) User successfully found: %@", JSON);
+        [self showSuccessAlertView];
     };
     
     id findUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"(GET) Failure finding user: %ld", (long)[operation.response statusCode]);
+        [self showFailureAlertView];
     };
     
     NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
@@ -96,17 +101,19 @@ NSString *userIDForTesting = @"527bcc72036440a177b13ab0";
         
         id updateSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
             NSLog(@"User successfully updated! Check them out: %@", JSON);
+            [self showSuccessAlertView];
         };
         
         id updateFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Failure when updating user: %@", error);
+            [self showFailureAlertView];
         };
         
         // set the endpoint
         NSString *updateEndpoint = [NSString stringWithFormat:@"%@/%@", endPointURLBase, foundUser.userId];
         
         // populate data needed to create user
-        NSString *updateData = [self createTestUserData1];
+        NSString *updateData = [self createTestUserData2];
         
         // update the user
         [AppUserManager updateAppUser: updateEndpoint : updateData
@@ -130,10 +137,12 @@ NSString *userIDForTesting = @"527bcc72036440a177b13ab0";
     
     id foundUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
         NSLog(@"Delete Successful");
+        [self showSuccessAlertView];
     };
     
     id foundUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Delete Failure: %@", error);
+        [self showSuccessAlertView];
     };
     
     NSString *deleteUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
@@ -145,13 +154,39 @@ NSString *userIDForTesting = @"527bcc72036440a177b13ab0";
 
 
 
+# pragma mark - ui alert view 
+
+- (void) showSuccessAlertView {
+
+    UIAlertView *testAlert = [[UIAlertView alloc] initWithTitle:@"Success!"
+                                                        message: @"Woohoo! Successful API Call!"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Awesome"
+                                              otherButtonTitles:nil];
+    
+    [testAlert show];
+}
+
+- (void) showFailureAlertView {
+    
+    UIAlertView *testAlert = [[UIAlertView alloc] initWithTitle:@"Failure!"
+                                                        message: @"Oh no! Your API call failed!"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Bummer"
+                                              otherButtonTitles:nil];
+    
+    [testAlert show];
+}
+
+
+
 # pragma mark - creating users for testing
 
 - (NSString *) createTestUserData1 {
     
     // populate data needed to create user
     NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"rg3@nfl.com", @"username",
+                             @"alfredmorris@nfl.com", @"username",
                              @"httr", @"password",
                              @"httr", @"confirmPassword", nil];
     

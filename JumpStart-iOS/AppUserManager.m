@@ -138,7 +138,7 @@
     return manager;
 }
 
-+(NSMutableURLRequest *) buildRequestWithNSURL:(NSURL *) url andHTTPMethod:(NSString *) method andEndpoint:(NSString *) endpoint {
++ (NSMutableURLRequest *) buildRequestWithNSURL:(NSURL *) url andHTTPMethod:(NSString *) method andEndpoint:(NSString *) endpoint {
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPMethod:method];
@@ -146,7 +146,7 @@
     return request;
 }
 
-+(NSString *) convertDictionaryToJSONString:(NSDictionary *)dictionary {
++ (NSString *) convertDictionaryToJSONString:(NSDictionary *)dictionary {
     
     NSMutableDictionary *tempDic = [NSMutableDictionary new];
     

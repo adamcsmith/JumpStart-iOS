@@ -26,6 +26,5 @@
 @property (strong, nonatomic) NSDate *created;
 @property (strong, nonatomic) NSDate *updated;
 @property (strong, nonatomic) NSString *salt;
-@property (strong, nonatomic) enum roles;
 
 @end

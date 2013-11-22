@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D225E3761831438F00EC3ABF /* RemoteAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D225E3751831438F00EC3ABF /* RemoteAPIClient.m */; };
 		D2928E7D18202AB6001ADA57 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2928E7C18202AB6001ADA57 /* Foundation.framework */; };
 		D2928E7F18202AB6001ADA57 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2928E7E18202AB6001ADA57 /* CoreGraphics.framework */; };
 		D2928E8118202AB6001ADA57 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2928E8018202AB6001ADA57 /* UIKit.framework */; };
@@ -21,7 +22,6 @@
 		D2928E9E18202AB6001ADA57 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2928E8018202AB6001ADA57 /* UIKit.framework */; };
 		D2928EA618202AB6001ADA57 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D2928EA418202AB6001ADA57 /* InfoPlist.strings */; };
 		D2928EA818202AB6001ADA57 /* JumpStart_iOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D2928EA718202AB6001ADA57 /* JumpStart_iOSTests.m */; };
-		D2928EB318202ACC001ADA57 /* AppUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2928EB218202ACC001ADA57 /* AppUserManager.m */; };
 		D2928EC818202AE0001ADA57 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D2928EB618202AE0001ADA57 /* AFHTTPRequestOperation.m */; };
 		D2928EC918202AE0001ADA57 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2928EB818202AE0001ADA57 /* AFHTTPRequestOperationManager.m */; };
 		D2928ECA18202AE0001ADA57 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D2928EBA18202AE0001ADA57 /* AFHTTPSessionManager.m */; };
@@ -52,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D225E3741831438F00EC3ABF /* RemoteAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RemoteAPIClient.h; sourceTree = "<group>"; };
+		D225E3751831438F00EC3ABF /* RemoteAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RemoteAPIClient.m; sourceTree = "<group>"; };
 		D2928E7918202AB6001ADA57 /* JumpStart-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JumpStart-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2928E7C18202AB6001ADA57 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2928E7E18202AB6001ADA57 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -71,8 +73,6 @@
 		D2928EA318202AB6001ADA57 /* JumpStart-iOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "JumpStart-iOSTests-Info.plist"; sourceTree = "<group>"; };
 		D2928EA518202AB6001ADA57 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		D2928EA718202AB6001ADA57 /* JumpStart_iOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JumpStart_iOSTests.m; sourceTree = "<group>"; };
-		D2928EB118202ACC001ADA57 /* AppUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppUserManager.h; sourceTree = "<group>"; };
-		D2928EB218202ACC001ADA57 /* AppUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppUserManager.m; sourceTree = "<group>"; };
 		D2928EB518202AE0001ADA57 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		D2928EB618202AE0001ADA57 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		D2928EB718202AE0001ADA57 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -262,10 +262,10 @@
 			isa = PBXGroup;
 			children = (
 				D2928EB418202AE0001ADA57 /* AFNetworking */,
-				D2928EB118202ACC001ADA57 /* AppUserManager.h */,
-				D2928EB218202ACC001ADA57 /* AppUserManager.m */,
 				D2928EE818203BC7001ADA57 /* AppUser.h */,
 				D2928EE918203BC7001ADA57 /* AppUser.m */,
+				D225E3741831438F00EC3ABF /* RemoteAPIClient.h */,
+				D225E3751831438F00EC3ABF /* RemoteAPIClient.m */,
 			);
 			name = JumpStart;
 			sourceTree = "<group>";
@@ -378,12 +378,12 @@
 				D2928EE518202AEA001ADA57 /* UIImageView+AFNetworking.m in Sources */,
 				D2928EC818202AE0001ADA57 /* AFHTTPRequestOperation.m in Sources */,
 				D2928EE218202AEA001ADA57 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
-				D2928EB318202ACC001ADA57 /* AppUserManager.m in Sources */,
 				D2928EEA18203BC7001ADA57 /* AppUser.m in Sources */,
 				D2928EE718202AEA001ADA57 /* UIWebView+AFNetworking.m in Sources */,
 				D2928ECE18202AE0001ADA57 /* AFURLRequestSerialization.m in Sources */,
 				D2928ECA18202AE0001ADA57 /* AFHTTPSessionManager.m in Sources */,
 				D2928ECB18202AE0001ADA57 /* AFNetworkReachabilityManager.m in Sources */,
+				D225E3761831438F00EC3ABF /* RemoteAPIClient.m in Sources */,
 				D2928ECF18202AE0001ADA57 /* AFURLResponseSerialization.m in Sources */,
 				D2928ED018202AE0001ADA57 /* AFURLSessionManager.m in Sources */,
 				D2928EE118202AEA001ADA57 /* AFNetworkActivityIndicatorManager.m in Sources */,
@@ -596,6 +596,7 @@
 				D2928EAD18202AB6001ADA57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D2928EAE18202AB6001ADA57 /* Build configuration list for PBXNativeTarget "JumpStart-iOSTests" */ = {
 			isa = XCConfigurationList;
@@ -604,6 +605,7 @@
 				D2928EB018202AB6001ADA57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

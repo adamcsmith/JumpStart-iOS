@@ -8,10 +8,11 @@
 
 #import "ViewController.h"
 #import "AFHTTPRequestOperationManager.h"
-#import "AppUserManager.h"
+#import "RemoteAPIClient.h"
+#import "AppUser.h"
 
 @interface ViewController ()
-@property (strong, nonatomic) AppUserManager *appUserManager;
+@property (strong, nonatomic) RemoteAPIClient *remoteAPIclient;
 @property (strong, nonatomic) AppUser *foundUser;
 @end
 
@@ -20,9 +21,9 @@
 // base url for endpoint
 NSString *endPointURLBase = @"http://localhost:9000/api/users";
 
-// user id for testing purposes
-//NSString *userIDForTesting = @"527bcc72036440a177b13ab0";
-NSString *userIDForTesting = @"7";
+// user id's for testing purposes
+//NSString *userIDForTesting = @"528cef9f0364b3c80e5ff431"; // mongo
+NSString *userIDForTesting = @"36"; //mySql
 
 
 
@@ -31,7 +32,7 @@ NSString *userIDForTesting = @"7";
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    _appUserManager = [[AppUserManager alloc] init];
+    _remoteAPIclient = [[RemoteAPIClient alloc] init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,7 +55,7 @@ NSString *userIDForTesting = @"7";
     
     id createUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
         
-        NSLog(@"Create User Failure: %@", error);
+        NSLog(@"Create User Failure: %@", operation.responseString);
         [self showFailureAlertView];
     };
     
@@ -62,10 +63,11 @@ NSString *userIDForTesting = @"7";
     NSString *createString = [self createTestUserData1];
     
     // make create call
-    [AppUserManager createAppUser:endPointURLBase : createString
-                          success:createUserSuccess
-                          failure:createUserFailure];
+    [RemoteAPIClient create:endPointURLBase : createString
+                    success:createUserSuccess
+                    failure:createUserFailure];
 }
+
 
 - (IBAction)testGET:(id)sender {
     
@@ -77,84 +79,66 @@ NSString *userIDForTesting = @"7";
     
     id findUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
         
-        NSLog(@"(GET) Failure finding user: %ld", (long)[operation.response statusCode]);
+        NSLog(@"(GET) Failure finding user: %@", operation.responseString);
         [self showFailureAlertView];
     };
     
     NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
     
-    [AppUserManager getAppUser:findUserString : nil
-                       success:findUserSuccess
-                       failure:findUserFailure];
+    [RemoteAPIClient retrieve:findUserString : nil
+                      success:findUserSuccess
+                      failure:findUserFailure];
 }
 
 
 - (IBAction)testPUT:(id)sender {
-    
-    id foundUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
-        
-        NSLog(@"Successfully found user for PUT!");
-        
-        // lets hold on to the id for later use
-        AppUser *foundUser = [[AppUser alloc] init];
-        foundUser.userId = [JSON valueForKeyPath:@"id"];
         
         id updateSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
-            NSLog(@"User successfully updated! Check them out: %@", JSON);
+            NSLog(@"User successfully updated! %@", JSON);
             [self showSuccessAlertView];
         };
         
         id updateFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"Failure when updating user: %@", error);
+            NSLog(@"Failure when updating user: %@", operation.responseString);
             [self showFailureAlertView];
         };
         
         // set the endpoint
-        NSString *updateEndpoint = [NSString stringWithFormat:@"%@/%@", endPointURLBase, foundUser.userId];
+        NSString *updateEndpoint = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
         
         // populate data needed to create user
         NSString *updateData = [self createTestUserData2];
         
         // update the user
-        [AppUserManager updateAppUser: updateEndpoint : updateData
-                              success:updateSuccess
-                              failure:updateFailure];
-    };
+        [RemoteAPIClient update:updateEndpoint : updateData
+                        success:updateSuccess
+                        failure:updateFailure];
     
-    id foundUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"(PUT) Failure finding user: %@", error);
-    };
-    
-    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
-    
-    [AppUserManager getAppUser: findUserString : nil
-                          success:foundUserSuccess
-                          failure:foundUserFailure];
 }
 
 
 - (IBAction)testDELETE:(id)sender {
     
-    id foundUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
-        NSLog(@"Delete Successful");
+    id deleteUserSuccess = ^(AFHTTPRequestOperation *operation, id JSON) {
+        NSLog(@"JSON: %@", JSON);
         [self showSuccessAlertView];
     };
     
-    id foundUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Delete Failure: %@", error);
-        [self showSuccessAlertView];
+    id deleteUserFailure = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Delete Failure: %@", operation.responseString);
+        [self showFailureAlertView];
     };
     
     NSString *deleteUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
     
-    [AppUserManager deleteAppUser: deleteUserString : nil
-                       success:foundUserSuccess
-                       failure:foundUserFailure];
+    [RemoteAPIClient delete:deleteUserString : nil
+                    success:deleteUserSuccess
+                    failure:deleteUserFailure];
 }
 
 
 
-# pragma mark - ui alert view 
+# pragma mark - ui alert view
 
 - (void) showSuccessAlertView {
 
@@ -186,12 +170,13 @@ NSString *userIDForTesting = @"7";
     
     // populate data needed to create user
     NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"alfredmorris@nfl.com", @"username",
+                             @"robertgriffiniii@yahoo.com", @"username",
                              @"httr", @"password",
-                             @"httr", @"confirmPassword", nil];
+                             @"httr", @"confirmPassword",
+                             nil];
     
     // converts the dictionary to a string
-    NSString *userData = [AppUserManager convertDictionaryToJSONString:userDic];
+    NSString *userData = [RemoteAPIClient convertDictionaryToJSONString:userDic];
     
     return userData;
 }
@@ -202,10 +187,11 @@ NSString *userIDForTesting = @"7";
     NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
                              @"mrtyson@gmail.com", @"username",
                              @"dogtreats", @"password",
-                             @"dogtreats", @"confirmPassword", nil];
+                             @"dogtreats", @"confirmPassword",
+                             nil];
     
     // converts the dictionary to a string
-    NSString *userData = [AppUserManager convertDictionaryToJSONString:userDic];
+    NSString *userData = [RemoteAPIClient convertDictionaryToJSONString:userDic];
     
     return userData;
 }

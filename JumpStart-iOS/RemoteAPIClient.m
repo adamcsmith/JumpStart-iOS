@@ -1,18 +1,14 @@
 //
-//  AppUserManager.m
+//  RemoteAPIClient.m
 //  JumpStart-iOS
 //
-//  Created by Adam C. Smith on 10/29/13.
+//  Created by Adam C. Smith on 11/11/13.
 //  Copyright (c) 2013 SPARC. All rights reserved.
 //
 
-#import "AppUserManager.h"
+#import "RemoteAPIClient.h"
 
-@interface AppUserManager ()
-@end
-
-@implementation AppUserManager
-
+@implementation RemoteAPIClient
 
 // TODO: should we encrypt user passwords before we send them over the wire?
 
@@ -24,31 +20,33 @@
  These operations work for both MySQL and Mongo databases
  **/
 
-+ (void) createAppUser:(NSString *)endPoint : (NSString *)userData
-               success:(void (^)(AFHTTPRequestOperation *, id))successCallback
-               failure:(void (^)(AFHTTPRequestOperation *, NSError *))failureCallback{
++ (void) create:(NSString *)endPoint : (NSString *)data
+        success:(void (^)(AFHTTPRequestOperation *, id))successCallback
+        failure:(void (^)(AFHTTPRequestOperation *, NSError *))failureCallback{
     
     AFHTTPRequestOperationManager *manager = [self configureRequestManager];
     
     NSString *urlString = [NSString stringWithString:endPoint];
     NSURL *url = [NSURL URLWithString:urlString];
     
-    NSMutableURLRequest *request = [AppUserManager buildRequestWithNSURL:url andHTTPMethod:@"POST" andEndpoint:endPoint];
+    NSMutableURLRequest *request = [RemoteAPIClient buildRequestWithNSURL:url andHTTPMethod:@"POST" andEndpoint:endPoint];
     
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:[userData dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
     
     AFHTTPRequestOperation *operation = [manager
                                          HTTPRequestOperationWithRequest:request
                                          success:successCallback
                                          failure:failureCallback];
     
+    [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^{}];
+    
     [operation start];
 }
 
-+ (void) getAppUser:(NSString *)endPoint :(NSDictionary *)userData
-           success:(void (^)(AFHTTPRequestOperation *, id))successCallback
-           failure:(void (^)(AFHTTPRequestOperation *, NSError *))failureCallback{
++ (void) retrieve:(NSString *)endPoint :(NSDictionary *)data
+          success:(void (^)(AFHTTPRequestOperation *, id))successCallback
+          failure:(void (^)(AFHTTPRequestOperation *, NSError *))failureCallback{
     
     AFHTTPRequestOperationManager *manager = [self configureRequestManager];
     
@@ -61,66 +59,42 @@
     
 }
 
-+ (void) updateAppUser:(NSString *)endPoint :(NSString *)userData
-               success:(void (^)(AFHTTPRequestOperation *, id))successCallback
-               failure:(void (^)(AFHTTPRequestOperation *, NSError *))failureCallback{
++ (void) update:(NSString *)endPoint :(NSString *)data
+        success:(void (^)(AFHTTPRequestOperation *, id))successCallback
+        failure:(void (^)(AFHTTPRequestOperation *, NSError *))failureCallback{
     
     AFHTTPRequestOperationManager *manager = [self configureRequestManager];
     
     NSString *urlString = [NSString stringWithString:endPoint];
     NSURL *url = [NSURL URLWithString:urlString];
     
-    NSMutableURLRequest *request = [AppUserManager buildRequestWithNSURL:url andHTTPMethod:@"PUT" andEndpoint:endPoint];
+    NSMutableURLRequest *request = [RemoteAPIClient buildRequestWithNSURL:url andHTTPMethod:@"PUT" andEndpoint:endPoint];
     
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:[userData dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setHTTPBody:[data dataUsingEncoding:NSUTF8StringEncoding]];
     
     AFHTTPRequestOperation *operation = [manager
                                          HTTPRequestOperationWithRequest:request
                                          success:successCallback
                                          failure:failureCallback];
     
+    [operation setShouldExecuteAsBackgroundTaskWithExpirationHandler:^{}];
+    
     [operation start];
 }
 
-+ (void) deleteAppUser:(NSString *)endPoint :(NSDictionary *)userData
-              success:(void (^)(AFHTTPRequestOperation *, id))successCallback
-              failure:(void (^)(AFHTTPRequestOperation *, NSError *))failureCallback{
++ (void) delete:(NSString *)endPoint : (NSDictionary *) data
+        success:(void (^)(AFHTTPRequestOperation *, id))successCallback
+        failure:(void (^)(AFHTTPRequestOperation *, NSError *))failureCallback{
     
     AFHTTPRequestOperationManager *manager = [self configureRequestManager];
     
     [manager
      DELETE: endPoint
-     parameters: userData
+     parameters: data
      success:successCallback
      failure:failureCallback
      ];
-}
-
-
-
-# pragma mark - convenience methods
-
-- (AppUser *) populateAppUser : (id) json {
-    
-    AppUser *user = [[AppUser alloc] init];
-    
-    user.userId = [json valueForKeyPath:@"id"];
-    user.username = [json valueForKeyPath:@"username"];
-    user.password = [json valueForKeyPath:@"password"];
-    
-//    user.confirmPassword = [json valueForKeyPath:@"confirmPassword"];
-//    user.plainTextPassword = [json valueForKeyPath:@"plainTextPassword"];
-//    user.temporaryPassword = [json valueForKeyPath:@"temporaryPassword"];
-//    user.temporaryPasswordExpiration = [json valueForKeyPath:@"temporaryPasswordExpiration"];
-//    user.failedLoginAttempts = [json valueForKeyPath:@"failedLoginAttempts"];
-//    user.lastLogin = [json valueForKeyPath:@"lastLogin"];
-//    user.created = [json valueForKeyPath:@"created"];
-//    user.updated = [json valueForKeyPath:@"updated"];
-//    user.salt = [json valueForKeyPath:@"salt"];
-//    user.role = [json valueForKeyPath:@"roles"];
-    
-    return user;
 }
 
 

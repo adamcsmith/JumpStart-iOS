@@ -109,6 +109,7 @@
 		D2928EE018202AEA001ADA57 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		D2928EE818203BC7001ADA57 /* AppUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppUser.h; sourceTree = "<group>"; };
 		D2928EE918203BC7001ADA57 /* AppUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppUser.m; sourceTree = "<group>"; };
+		D2D0E9E71875C5960013CDD3 /* Callback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Callback.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +267,7 @@
 				D2928EE918203BC7001ADA57 /* AppUser.m */,
 				D225E3741831438F00EC3ABF /* RemoteAPIClient.h */,
 				D225E3751831438F00EC3ABF /* RemoteAPIClient.m */,
+				D2D0E9E71875C5960013CDD3 /* Callback.h */,
 			);
 			name = JumpStart;
 			sourceTree = "<group>";

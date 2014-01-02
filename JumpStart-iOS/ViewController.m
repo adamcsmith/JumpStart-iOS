@@ -22,8 +22,8 @@
 NSString *endPointURLBase = @"http://localhost:9000/api/users";
 
 // user id's for testing purposes
-//NSString *userIDForTesting = @"528cef9f0364b3c80e5ff431"; // mongo
-NSString *userIDForTesting = @"36"; //mySql
+NSString *userIDForTesting = @"52c58c0e03649d33922ab177"; // mongo
+//NSString *userIDForTesting = @"36"; //mySql
 
 
 
@@ -60,7 +60,7 @@ NSString *userIDForTesting = @"36"; //mySql
     };
     
     // create test user
-    NSString *createString = [self createTestUserData1];
+    NSDictionary *createString = [self createTestUserData1];
     
     // make create call
     [RemoteAPIClient create:endPointURLBase : createString
@@ -107,7 +107,7 @@ NSString *userIDForTesting = @"36"; //mySql
         NSString *updateEndpoint = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
         
         // populate data needed to create user
-        NSString *updateData = [self createTestUserData2];
+        NSDictionary *updateData = [self createTestUserData2];
         
         // update the user
         [RemoteAPIClient update:updateEndpoint : updateData
@@ -166,22 +166,19 @@ NSString *userIDForTesting = @"36"; //mySql
 
 # pragma mark - creating users for testing
 
-- (NSString *) createTestUserData1 {
+- (NSDictionary *) createTestUserData1 {
     
     // populate data needed to create user
     NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"robertgriffiniii@yahoo.com", @"username",
+                             @"markymark@yahoo.com", @"username",
                              @"httr", @"password",
                              @"httr", @"confirmPassword",
                              nil];
     
-    // converts the dictionary to a string
-    NSString *userData = [RemoteAPIClient convertDictionaryToJSONString:userDic];
-    
-    return userData;
+    return userDic;
 }
 
-- (NSString *) createTestUserData2 {
+- (NSDictionary *) createTestUserData2 {
     
     // populate data needed to create user
     NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -190,10 +187,7 @@ NSString *userIDForTesting = @"36"; //mySql
                              @"dogtreats", @"confirmPassword",
                              nil];
     
-    // converts the dictionary to a string
-    NSString *userData = [RemoteAPIClient convertDictionaryToJSONString:userDic];
-    
-    return userData;
+    return userDic;
 }
 
 @end

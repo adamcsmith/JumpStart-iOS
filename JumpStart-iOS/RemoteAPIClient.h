@@ -11,7 +11,7 @@
 
 @interface RemoteAPIClient : NSObject
 
-+ (void) create :(NSString *)endPoint : (NSString *)data
++ (void) create :(NSString *)endPoint : (NSDictionary *)data
                success:(void (^)(AFHTTPRequestOperation *, id))successCallback
                failure:(void (^)(AFHTTPRequestOperation *, NSError *))failureCallback;
 
@@ -19,7 +19,7 @@
              success:(void(^)(AFHTTPRequestOperation *operation, id JSON))successCallback
              failure:(void(^)(AFHTTPRequestOperation *operation, NSError *error))failureCallback;
 
-+ (void) update : (NSString *) endPoint : (NSString *) data
++ (void) update : (NSString *) endPoint : (NSDictionary *) data
                 success:(void(^)(AFHTTPRequestOperation *operation, id JSON))successCallback
                 failure:(void(^)(AFHTTPRequestOperation *operation, NSError *error))failureCallback;
 

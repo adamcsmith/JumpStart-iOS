@@ -6,23 +6,20 @@
 //  Copyright (c) 2013 SPARC. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "AppUserViewController.h"
 #import "AFHTTPRequestOperationManager.h"
 #import "RemoteAPIClient.h"
 #import "AppUser.h"
 
-@interface ViewController ()
+@interface AppUserViewController ()
 @property (strong, nonatomic) RemoteAPIClient *remoteAPIclient;
 @property (strong, nonatomic) AppUser *foundUser;
 @end
 
-@implementation ViewController
-
-// base url for endpoint
-NSString *endPointURLBase = @"http://localhost:9000/api/users";
+@implementation AppUserViewController
 
 // user id's for testing purposes
-NSString *userIDForTesting = @"52c58c0e03649d33922ab177"; // mongo
+NSString *userIDForTesting = @"52c59dc40364bd2ad8a19bb9"; // mongo
 //NSString *userIDForTesting = @"36"; //mySql
 
 
@@ -60,12 +57,10 @@ NSString *userIDForTesting = @"52c58c0e03649d33922ab177"; // mongo
     };
     
     // create test user
-    NSDictionary *createString = [self createTestUserData1];
+    NSMutableDictionary *createDic = [self createTestUserData1];
     
     // make create call
-    [RemoteAPIClient create:endPointURLBase : createString
-                    success:createUserSuccess
-                    failure:createUserFailure];
+    [AppUser createUser:createDic success:createUserSuccess failure:createUserFailure];
 }
 
 
@@ -83,11 +78,11 @@ NSString *userIDForTesting = @"52c58c0e03649d33922ab177"; // mongo
         [self showFailureAlertView];
     };
     
-    NSString *findUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
+    NSMutableDictionary *findUserDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                           userIDForTesting, @"id",
+                                           nil];
     
-    [RemoteAPIClient retrieve:findUserString : nil
-                      success:findUserSuccess
-                      failure:findUserFailure];
+    [AppUser findUser:findUserDic success:findUserSuccess failure:findUserFailure];
 }
 
 
@@ -102,17 +97,12 @@ NSString *userIDForTesting = @"52c58c0e03649d33922ab177"; // mongo
             NSLog(@"Failure when updating user: %@", operation.responseString);
             [self showFailureAlertView];
         };
-        
-        // set the endpoint
-        NSString *updateEndpoint = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
-        
+    
         // populate data needed to create user
-        NSDictionary *updateData = [self createTestUserData2];
+        NSMutableDictionary *updateData = [self createTestUserData2];
         
         // update the user
-        [RemoteAPIClient update:updateEndpoint : updateData
-                        success:updateSuccess
-                        failure:updateFailure];
+        [AppUser updateUser:userIDForTesting params:updateData success:updateSuccess failure:updateFailure];
     
 }
 
@@ -129,11 +119,7 @@ NSString *userIDForTesting = @"52c58c0e03649d33922ab177"; // mongo
         [self showFailureAlertView];
     };
     
-    NSString *deleteUserString = [NSString stringWithFormat:@"%@/%@", endPointURLBase, userIDForTesting];
-    
-    [RemoteAPIClient delete:deleteUserString : nil
-                    success:deleteUserSuccess
-                    failure:deleteUserFailure];
+    [AppUser deleteUser:userIDForTesting success:deleteUserSuccess failure:deleteUserFailure];
 }
 
 
@@ -166,11 +152,11 @@ NSString *userIDForTesting = @"52c58c0e03649d33922ab177"; // mongo
 
 # pragma mark - creating users for testing
 
-- (NSDictionary *) createTestUserData1 {
+- (NSMutableDictionary *) createTestUserData1 {
     
     // populate data needed to create user
-    NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"markymark@yahoo.com", @"username",
+    NSMutableDictionary *userDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                             @"jay-z@yahoo.com", @"username",
                              @"httr", @"password",
                              @"httr", @"confirmPassword",
                              nil];
@@ -178,11 +164,11 @@ NSString *userIDForTesting = @"52c58c0e03649d33922ab177"; // mongo
     return userDic;
 }
 
-- (NSDictionary *) createTestUserData2 {
+- (NSMutableDictionary *) createTestUserData2 {
     
     // populate data needed to create user
-    NSDictionary *userDic = [[NSDictionary alloc] initWithObjectsAndKeys:
-                             @"mrtyson@gmail.com", @"username",
+    NSMutableDictionary *userDic = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                             @"eminem@gmail.com", @"username",
                              @"dogtreats", @"password",
                              @"dogtreats", @"confirmPassword",
                              nil];

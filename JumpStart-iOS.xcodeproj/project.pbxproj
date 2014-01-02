@@ -15,7 +15,7 @@
 		D2928E8918202AB6001ADA57 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2928E8818202AB6001ADA57 /* main.m */; };
 		D2928E8D18202AB6001ADA57 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2928E8C18202AB6001ADA57 /* AppDelegate.m */; };
 		D2928E9018202AB6001ADA57 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D2928E8E18202AB6001ADA57 /* Main.storyboard */; };
-		D2928E9318202AB6001ADA57 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2928E9218202AB6001ADA57 /* ViewController.m */; };
+		D2928E9318202AB6001ADA57 /* AppUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2928E9218202AB6001ADA57 /* AppUserViewController.m */; };
 		D2928E9518202AB6001ADA57 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D2928E9418202AB6001ADA57 /* Images.xcassets */; };
 		D2928E9C18202AB6001ADA57 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2928E9B18202AB6001ADA57 /* XCTest.framework */; };
 		D2928E9D18202AB6001ADA57 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2928E7C18202AB6001ADA57 /* Foundation.framework */; };
@@ -65,8 +65,8 @@
 		D2928E8B18202AB6001ADA57 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		D2928E8C18202AB6001ADA57 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		D2928E8F18202AB6001ADA57 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		D2928E9118202AB6001ADA57 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D2928E9218202AB6001ADA57 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		D2928E9118202AB6001ADA57 /* AppUserViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppUserViewController.h; sourceTree = "<group>"; };
+		D2928E9218202AB6001ADA57 /* AppUserViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppUserViewController.m; sourceTree = "<group>"; };
 		D2928E9418202AB6001ADA57 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D2928E9A18202AB6001ADA57 /* JumpStart-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JumpStart-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2928E9B18202AB6001ADA57 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -173,8 +173,8 @@
 				D2928E8B18202AB6001ADA57 /* AppDelegate.h */,
 				D2928E8C18202AB6001ADA57 /* AppDelegate.m */,
 				D2928E8E18202AB6001ADA57 /* Main.storyboard */,
-				D2928E9118202AB6001ADA57 /* ViewController.h */,
-				D2928E9218202AB6001ADA57 /* ViewController.m */,
+				D2928E9118202AB6001ADA57 /* AppUserViewController.h */,
+				D2928E9218202AB6001ADA57 /* AppUserViewController.m */,
 				D2928E9418202AB6001ADA57 /* Images.xcassets */,
 				D2928E8318202AB6001ADA57 /* Supporting Files */,
 			);
@@ -372,7 +372,7 @@
 				D2928EE618202AEA001ADA57 /* UIProgressView+AFNetworking.m in Sources */,
 				D2928EE418202AEA001ADA57 /* UIButton+AFNetworking.m in Sources */,
 				D2928EE318202AEA001ADA57 /* UIAlertView+AFNetworking.m in Sources */,
-				D2928E9318202AB6001ADA57 /* ViewController.m in Sources */,
+				D2928E9318202AB6001ADA57 /* AppUserViewController.m in Sources */,
 				D2928ECC18202AE0001ADA57 /* AFSecurityPolicy.m in Sources */,
 				D2928E8D18202AB6001ADA57 /* AppDelegate.m in Sources */,
 				D2928EC918202AE0001ADA57 /* AFHTTPRequestOperationManager.m in Sources */,

@@ -27,6 +27,6 @@
                 success:(void(^)(AFHTTPRequestOperation *operation, id JSON))successCallback
                 failure:(void(^)(AFHTTPRequestOperation *operation, NSError *error))failureCallback;
 
-+ (NSString *) convertDictionaryToJSONString:(NSDictionary *)dictionary;
+//+ (NSString *) convertDictionaryToJSONString:(NSDictionary *)dictionary;
 
 @end
